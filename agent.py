@@ -1,5 +1,7 @@
 import asyncio
 import json
+import os
+import aiohttp
 import asyncpg
 from dotenv import load_dotenv
 from pydantic import BaseModel, Field
@@ -111,7 +113,7 @@ async def extract_with_groq(text: str) -> Listings | None:
 
     print("Sending text to Groq for structured extraction...")
     response = await client.chat.completions.create(
-        model="llama-3.3-70b-versatile",
+        model="llama-3.1-8b-instant",
         messages=[
             {
                 "role": "system",
@@ -141,33 +143,65 @@ async def extract_with_groq(text: str) -> Listings | None:
     return parsed
 
 
+async def evaluate_and_alert(listing: ApartmentListing) -> None:
+    """Evaluate a listing against criteria and send a Discord alert if met."""
+    webhook_url = os.getenv("DISCORD_WEBHOOK_URL")
+    if not webhook_url:
+        return
+
+    if listing.monthly_rent_eur <= 350 and "Complexul" in listing.neighborhood:
+        content = (
+            f"🚨 **New Apartment Alert!** 🚨\n"
+            f"**Title:** {listing.title}\n"
+            f"**Price:** {listing.monthly_rent_eur} EUR\n"
+            f"**Location:** {listing.neighborhood}\n"
+            f"**Rooms:** {listing.rooms}"
+        )
+        payload = {"content": content}
+        try:
+            async with aiohttp.ClientSession() as session:
+                async with session.post(webhook_url, json=payload) as response:
+                    if response.status not in (200, 204):
+                        print(f"Failed to send Discord alert: {response.status}")
+        except Exception as e:
+            print(f"Error sending Discord alert: {e}")
+
+
 async def save_to_db(data: Listings) -> None:
-    """Persist extracted listings into a local PostgreSQL database."""
-    conn = await asyncpg.connect(
-        host="localhost",
-        port=5433,
-        database="WebExAg",
-        user="Ben",
-        password="postgres88",
-    )
+    """Persist extracted listings into a PostgreSQL database URL."""
+    database_url = os.getenv("DATABASE_URL")
+    if not database_url:
+        print("Error: DATABASE_URL not found in environment variables.")
+        return
+
+    conn = await asyncpg.connect(database_url)
 
     await conn.execute("""
-        CREATE TABLE IF NOT EXISTS timisoara_rents (
-            id SERIAL PRIMARY KEY,
-            title TEXT NOT NULL,
-            monthly_rent_eur INTEGER NOT NULL,
-            neighborhood TEXT NOT NULL,
-            rooms INTEGER NOT NULL,
-            is_pet_friendly BOOLEAN NOT NULL
-        )
+    CREATE TABLE IF NOT EXISTS timisoara_rents (
+        id SERIAL PRIMARY KEY,
+        title TEXT NOT NULL,
+        monthly_rent_eur INTEGER NOT NULL,
+        neighborhood TEXT NOT NULL,
+        rooms INTEGER,
+        is_pet_friendly BOOLEAN,
+        first_seen TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+        last_seen TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+        CONSTRAINT unique_listing UNIQUE (title, neighborhood)
+    )
     """)
 
     for listing in data.listings:
         await conn.execute(
             """
-            INSERT INTO timisoara_rents (title, monthly_rent_eur, neighborhood, rooms, is_pet_friendly)
-            VALUES ($1, $2, $3, $4, $5)
-            """,
+            INSERT INTO timisoara_rents 
+                (title, monthly_rent_eur, neighborhood, rooms, is_pet_friendly)
+            VALUES 
+                ($1, $2, $3, $4, $5)
+            ON CONFLICT (title, neighborhood)
+            DO UPDATE SET
+                monthly_rent_eur = EXCLUDED.monthly_rent_eur,
+                last_seen = CURRENT_TIMESTAMP;
+        """,
             listing.title,
             listing.monthly_rent_eur,
             listing.neighborhood,
@@ -198,6 +232,8 @@ async def main():
                 f"Successfully extracted {len(listings_data.listings)} listings from page {i}:\n"
             )
             print(listings_data.model_dump_json(indent=2))
+            for listing in listings_data.listings:
+                await evaluate_and_alert(listing)
             await save_to_db(listings_data)
         else:
             print(f"Error: No listings could be extracted from page {i}.")
