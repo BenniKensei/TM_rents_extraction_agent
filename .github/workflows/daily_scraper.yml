@@ -1,17 +1,14 @@
 name: Daily Real Estate Web Scraper
 
-# Run daily at 8:00 AM UTC
 on:
   schedule:
     - cron: '0 8 * * *'
-  # Allow manual triggering via GitHub UI
   workflow_dispatch:
 
 jobs:
   scrape-and-notify:
     runs-on: ubuntu-latest
     
-    # We define environment variables pulling securely from GitHub Secrets
     env:
       DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
       GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
@@ -28,12 +25,11 @@ jobs:
 
       - name: Install Python Dependencies
         run: |
-          # Upgrades pip and installs packages explicitly, alternatively use pip install -r requirements.txt
           python -m pip install --upgrade pip
           pip install playwright pydantic groq asyncpg python-dotenv aiohttp
 
-      - name: Install Playwright Chromium Browser
-        run: playwright install chromium
+      - name: Install Playwright Chromium Browser & OS Dependencies
+        run: playwright install chromium --with-deps
 
-      - name: Run Web Scraper Agent
-        run: python agent.py
+      - name: Run Web Scraper Agent with Virtual Display
+        run: xvfb-run python agent.py
