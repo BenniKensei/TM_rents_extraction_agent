@@ -28,8 +28,11 @@ jobs:
           python -m pip install --upgrade pip
           pip install playwright pydantic groq asyncpg python-dotenv aiohttp
 
-      - name: Install Playwright Chromium Browser & OS Dependencies
-        run: playwright install chromium --with-deps
+      - name: Install Playwright & OS Dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y xvfb
+          playwright install chromium --with-deps
 
       - name: Run Web Scraper Agent with Virtual Display
-        run: xvfb-run python agent.py
+        run: xvfb-run --auto-servernum -- python agent.py
