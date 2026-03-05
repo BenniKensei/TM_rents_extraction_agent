@@ -78,8 +78,8 @@ DISCORD_WEBHOOK_URL="your_webhook"
 DATABASE_URL="postgresql://postgres:[password]@[URL].pooler.supabase.com:6543/postgres"
 
 # 5. Run Scraper Pipeline
-python agent.py
+python src/agent.py
 
 # 6. Launch Analytics Dashboard
-streamlit run dashboard.py
+streamlit run src/dashboard.py
 ```

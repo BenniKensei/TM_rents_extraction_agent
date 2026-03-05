@@ -35,4 +35,4 @@ jobs:
           playwright install chromium --with-deps
 
       - name: Run Web Scraper Agent with Virtual Display
-        run: xvfb-run --auto-servernum -- python agent.py
+        run: xvfb-run --auto-servernum -- python src/agent.py
