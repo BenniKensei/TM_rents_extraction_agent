@@ -1,61 +1,85 @@
-# Web Extraction Agent
+# 🏢 AI-Powered Real Estate Web Extraction Pipeline
 
-## Executive Summary
-This project is an advanced, AI-powered web extraction pipeline designed to scrape structured data from complex real estate listings. Instead of relying on fragile, hard-coded HTML DOM parsing that breaks whenever a website updates its layout, this agent uses Large Language Models (LLMs) to intelligently understand and extract information directly from raw webpage text. It visits pages securely using stealth-configured browser automation, cleans the noise from the DOM, and leverages schema-driven extraction to reliably output clean, persistent data.
+<div align="center">
 
-## System Architecture
-The extraction pipeline is built on the following core technologies:
-- **Playwright (Async):** Drives a headless/headed Chromium browser configured with stealth settings to bypass bot detection, navigate through pagination, and trigger lazy-loaded elements.
-- **Groq/Gemini API (LLM Extraction):** Employs fast, state-of-the-art LLMs (like `llama-3.3-70b-versatile` via Groq) to analyze the raw text semantics of the page and dynamically locate the required fields, making the scraper robust against minor CSS/HTML structure changes.
-- **Pydantic:** Strictly defines the extraction schema (e.g., fields, data types, and logical rules like currency conversion and boolean flags) to guarantee that the LLM output is consistently structured and validated.
-- **PostgreSQL:** A robust relational database (containerized via Docker) used to cleanly persist the extracted and validated schema listings for downstream analysis.
+![Streamlit Data Dashboard](assets/dashboard.png)
+*A live snapshot of the Streamlit analytics generated dynamically from extracted web data.*
 
-## Prerequisites
-- Python 3.10+
-- Docker & Docker Compose
-- API Keys: A Groq API Key (or Gemini API Key for fallback)
-- Git
+</div>
 
-## Local Setup Instructions
+## 📌 Executive Summary
+This project represents an advanced, end-to-end data engineering and automation pipeline. Rather than writing brittle HTML/DOM parsers using BeautifulSoup that break with every website update, this agent leverages Large Language Models (LLMs) to semantically comprehend and structure unstructured webpage text. It securely extracts daily apartment rental data from real estate domains, validates the schema, persists the data to a remote cloud database, surfaces analytics to a frontend dashboard, and dispatches automated event-driven alerts.
 
-1. **Clone the repository:**
-   ```bash
-   git clone <repository-url>
-   cd Web_Extraction_Agent
-   ```
+## 🚀 System Architecture & Data Flow
 
-2. **Set up the virtual environment:**
-   ```bash
-   python -m venv venv
-   # On Windows:
-   venv\Scripts\activate
-   # On macOS/Linux:
-   source venv/bin/activate
-   ```
+```mermaid
+graph TD
+    A[Playwright Async] -->|Raw Text Extract| B(Groq LLM Engine)
+    B -->|Structured JSON Parsing| C{Pydantic Validation}
+    C -->|Persist Valid Rows| D[(Supabase PostgreSQL)]
+    D -->|Query Data| E[Streamlit Dashboard]
+    C -->|Evaluate Conditions| F[Discord Webhook Alert]
+    G[GitHub Actions CI/CD] -.->|Triggers Daily at 8:00 AM| A
+```
 
-3. **Install dependencies:**
-   *(Ensure you have `pip` updated)*
-   ```bash
-   pip install playwright pydantic groq python-dotenv asyncpg
-   playwright install chromium
-   ```
+### 1. Web Automation (Playwright)
+- Deploys a headless Chromium browser running with anti-bot stealth configurations.
+- Intelligently bypasses cookie consent banners, handles pagination dynamically, and forces lazy-loaded elements to render by programmatically scrolling.
 
-4. **Configure Environment Variables:**
-   Create a `.env` file in the root directory and add your API keys:
-   ```env
-   GROQ_API_KEY=your_groq_api_key_here
-   ```
+### 2. Semantic Extraction (LLM via Groq)
+- Cleans and isolates the relevant textual payload of the webpage text without needing fragile CSS selectors.
+- Feeds the text into the Groq API (e.g., `llama-3.1-8b-instant`), returning validated `JSON` mimicking structured intelligence.
 
-5. **Start the Database Services:**
-   Launch the local PostgreSQL database using Docker Compose:
-   ```bash
-   docker-compose up -d
-   ```
-   *Note: This spins up a Postgres 15 database on port `5433` with the configured user `Ben` and database `WebExAg`.*
+### 3. Data Validation & Transformation (Pydantic)
+- Strictly enforces schema parameters ensuring correct typing (e.g., transforming currency into EUR, mapping booleans for pet-friendliness).
+- Malformed unstructured data is gracefully handled by the rigorous Pydantic models.
 
-6. **Run the Extraction Agent:**
-   Execute the scraping pipeline:
-   ```bash
-   python agent.py
-   ```
-   The agent will launch a browser session, securely navigate the target paginated URLs, intelligently construct valid extractions via Groq, and persist them into the local Postgres instance.
+### 4. Cloud Database (Supabase PostgreSQL)
+- Replaces local persistence with a centralized `Supabase` PostgreSQL connection layer.
+- Uses `asyncpg` within Python for incredibly fast algorithmic inserts while avoiding duplicates via an `ON CONFLICT` constraints update logic.
+
+### 5. Automated Alerting (Discord Webhooks)
+- Scraped apartments are evaluated against business rules (e.g., `Price <= €350` and `Neighborhood == Complexul Studentesc`).
+- Hits matching criteria trigger ultra-fast `aiohttp` asynchronous requests sending formatted markdown messages to a live Discord channel.
+
+### 6. Analytics Visualizer (Streamlit)
+- Connects securely to the Supabase instance using `psycopg2` via environment variables.
+- Rapidly generates an interactive UI offering real-time KPIs, interactive tables, and high-level rent distributions by neighborhood.
+
+### 7. CI/CD Pipeline (GitHub Actions)
+- The entire application runs autonomously without human intervention.
+- The `.github/workflows` automation provisions a virtual machine, injects encrypted Repository Secrets into the environment, runs the pipeline at `8:00 AM UTC` daily, and updates all databases and webhooks seamlessly.
+
+## 🛠 Prerequisites
+
+- Python 3.12+
+- Supabase Account (Remote PostgreSQL configuration)
+- Discord Server (For Webhook integration)
+- Groq API Key
+
+## 💻 Local Quickstart
+
+```bash
+# 1. Clone the repository
+git clone https://github.com/BenniKensei/TM_rents_extraction_agent.git
+cd TM_rents_extraction_agent
+
+# 2. Setup virtual environment & activate
+python -m venv venv
+.\venv\Scripts\activate
+
+# 3. Install packages & browser automation binaries
+pip install playwright pydantic groq python-dotenv asyncpg aiohttp streamlit psycopg2-binary
+playwright install chromium
+
+# 4. Configure .env with the following keys
+GROQ_API_KEY="your_api_key"
+DISCORD_WEBHOOK_URL="your_webhook"
+DATABASE_URL="postgresql://postgres:[password]@[URL].pooler.supabase.com:6543/postgres"
+
+# 5. Run Scraper Pipeline
+python agent.py
+
+# 6. Launch Analytics Dashboard
+streamlit run dashboard.py
+```
