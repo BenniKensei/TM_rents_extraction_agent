@@ -1,0 +1,207 @@
+id,title,monthly_rent_eur,neighborhood,rooms,is_pet_friendly,first_seen,last_seen
+1,Apartament 4 camere - Plopi,339.0,Girocului,3,False,2026-02-25 18:24:41.480867,2026-03-06 18:24:41.480867
+2,Apartament 3 camere - Tipografiei,288.0,Mehala,3,False,2025-12-27 18:24:41.480867,2026-03-01 18:24:41.480867
+3,Apartament 2 camere - Dorobanți,351.0,Tipografiei,3,False,2026-03-07 18:24:41.480867,2026-03-23 18:24:41.480867
+4,Apartament 1 camere - Dambovita,421.0,Micălaca,4,False,2026-02-16 18:24:41.480867,2026-03-07 18:24:41.480867
+5,Apartament 4 camere - Mehala,281.0,Dorobanți,2,False,2026-01-16 18:24:41.480867,2026-03-24 18:24:41.480867
+6,Apartament 2 camere - Micălaca,281.0,Centru,2,False,2026-03-26 18:24:41.480867,2026-02-27 18:24:41.480867
+7,Apartament 3 camere - Dorobanți,,Moghioroș,3,False,2026-01-16 18:24:41.480867,2026-03-07 18:24:41.480867
+8,Apartament 3 camere - Iosefin,361.0,Iosefin,3,False,2026-02-03 18:24:41.480867,2026-03-07 18:24:41.480867
+9,Apartament 3 camere - Buziaș,262.0,Complexul Studentesc,3,False,2026-03-16 18:24:41.480867,2026-03-26 18:24:41.480867
+10,Apartament 4 camere - Moghioroș,343.0,Micălaca,3,False,2026-02-27 18:24:41.480867,2026-03-18 18:24:41.480867
+11,Apartament 1 camere - Dambovita,262.0,Plopi,3,False,2026-03-13 18:24:41.480867,2026-03-02 18:24:41.480867
+12,Apartament 4 camere - Mehala,262.0,Tipografiei,2,,2026-01-27 18:24:41.480867,2026-03-13 18:24:41.480867
+13,Apartament 1 camere - Complexul Studentesc,319.0,Dambovita,2,False,2026-03-12 18:24:41.480867,2026-03-26 18:24:41.480867
+14,Apartament 1 camere - Tipografiei,146.0,Dorobanți,1,False,2026-01-04 18:24:41.480867,2026-03-09 18:24:41.480867
+15,Apartament 4 camere - Dambovita,162.0,Fabric,2,False,2026-03-08 18:24:41.480867,2026-03-16 18:24:41.480867
+16,Apartament 2 camere - Fabric,255.0,Iosefin,1,False,2026-01-23 18:24:41.480867,2026-03-04 18:24:41.480867
+17,Apartament 2 camere - Complexul Studentesc,218.0,Micălaca,2,False,2026-02-18 18:24:41.480867,2026-03-23 18:24:41.480867
+18,Apartament 1 camere - Mehala,325.0,Dorobanți,2,False,2026-01-21 18:24:41.480867,2026-03-25 18:24:41.480867
+19,Apartament 4 camere - Buziaș,227.0,Moghioroș,2,,2025-12-27 18:24:41.480867,2026-02-26 18:24:41.480867
+20,Apartament 1 camere - Moghioroș,187.0,Dambovita,2,False,2026-02-21 18:24:41.480867,2026-03-18 18:24:41.480867
+21,Apartament 2 camere - Dorobanți,417.0,Dambovita,1,False,2026-02-02 18:24:41.480867,2026-03-17 18:24:41.480867
+22,Apartament 2 camere - Centru,281.0,Centru,1,False,2026-01-25 18:24:41.480867,2026-03-04 18:24:41.480867
+23,Apartament 3 camere - Plopi,305.0,Moghioroș,3,False,2026-01-26 18:24:41.480867,2026-03-14 18:24:41.480867
+24,Apartament 1 camere - Iosefin,186.0,Plopi,2,False,2026-02-24 18:24:41.480867,2026-03-22 18:24:41.480867
+25,Apartament 2 camere - Mehala,256.0,Dambovita,1,False,2026-01-28 18:24:41.480867,2026-03-21 18:24:41.480867
+26,Apartament 4 camere - Centru,308.0,Mehala,2,False,2026-01-16 18:24:41.480867,2026-03-23 18:24:41.480867
+27,Apartament 3 camere - Plopi,207.0,Fabric,3,False,2026-03-09 18:24:41.480867,2026-03-02 18:24:41.480867
+28,Apartament 4 camere - Micălaca,330.0,Girocului,2,False,2026-02-06 18:24:41.480867,2026-03-10 18:24:41.480867
+29,Apartament 4 camere - Moghioroș,,Iosefin,3,False,2026-03-03 18:24:41.480867,2026-02-27 18:24:41.480867
+30,Apartament 2 camere - Mehala,276.0,Dambovita,1,False,2026-01-10 18:24:41.480867,2026-03-16 18:24:41.480867
+31,Apartament 2 camere - Mehala,251.0,Mehala,1,False,2026-01-21 18:24:41.480867,2026-03-11 18:24:41.480867
+32,Apartament 4 camere - Moghioroș,448.0,Fabric,2,False,2026-03-10 18:24:41.480867,2026-03-11 18:24:41.480867
+33,Apartament 1 camere - Mehala,298.0,Iosefin,2,False,2026-03-19 18:24:41.480867,2026-02-26 18:24:41.480867
+34,Apartament 2 camere - Dambovita,645.0,Girocului,3,False,2026-02-20 18:24:41.480867,2026-03-19 18:24:41.480867
+35,Apartament 1 camere - Plopi,365.0,Micălaca,3,False,2026-02-02 18:24:41.480867,2026-03-01 18:24:41.480867
+36,Apartament 4 camere - Tipografiei,202.0,Tipografiei,4,False,2026-02-12 18:24:41.480867,2026-03-22 18:24:41.480867
+37,Apartament 2 camere - Complexul Studentesc,316.0,Buziaș,2,False,2026-01-22 18:24:41.480867,2026-03-19 18:24:41.480867
+38,Apartament 3 camere - Fabric,143.0,Iosefin,2,False,2026-02-21 18:24:41.480867,2026-02-26 18:24:41.480867
+39,Apartament 3 camere - Micălaca,193.0,Tipografiei,3,False,2026-03-27 18:24:41.480867,2026-03-01 18:24:41.480867
+40,Apartament 2 camere - Centru,315.0,Girocului,2,False,2026-02-19 18:24:41.480867,2026-02-25 18:24:41.480867
+41,Apartament 4 camere - Micălaca,359.0,Mehala,2,False,2026-02-17 18:24:41.480867,2026-03-12 18:24:41.480867
+42,Apartament 1 camere - Dambovita,313.0,Micălaca,1,False,2026-01-11 18:24:41.480867,2026-02-25 18:24:41.480867
+43,Apartament 2 camere - Dambovita,290.0,Dambovita,1,False,2026-01-12 18:24:41.480867,2026-03-02 18:24:41.480867
+44,Apartament 4 camere - Micălaca,275.0,Plopi,4,True,2026-01-02 18:24:41.480867,2026-03-18 18:24:41.480867
+45,Apartament 1 camere - Iosefin,,Tipografiei,3,False,2026-01-24 18:24:41.480867,2026-03-04 18:24:41.480867
+46,Apartament 2 camere - Mehala,242.0,Dorobanți,3,False,2026-03-08 18:24:41.480867,2026-02-28 18:24:41.480867
+47,Apartament 2 camere - Complexul Studentesc,263.0,Fabric,2,False,2026-01-29 18:24:41.480867,2026-03-17 18:24:41.480867
+48,Apartament 3 camere - Iosefin,384.0,Dambovita,1,False,2026-01-18 18:24:41.480867,2026-03-02 18:24:41.480867
+49,Apartament 1 camere - Iosefin,327.0,Buziaș,1,False,2026-01-25 18:24:41.480867,2026-03-24 18:24:41.480867
+50,Apartament 2 camere - Moghioroș,158.0,Dambovita,2,False,2026-02-11 18:24:41.480867,2026-03-13 18:24:41.480867
+51,Apartament 2 camere - Dorobanți,325.0,Dambovita,2,False,2026-02-13 18:24:41.480867,2026-02-25 18:24:41.480867
+52,Apartament 3 camere - Plopi,269.0,Centru,3,,2026-01-16 18:24:41.480867,2026-03-25 18:24:41.480867
+53,Apartament 2 camere - Fabric,245.0,Dorobanți,3,False,2026-01-17 18:24:41.480867,2026-03-23 18:24:41.480867
+54,Apartament 4 camere - Micălaca,348.0,Buziaș,2,False,2026-02-07 18:24:41.480867,2026-03-03 18:24:41.480867
+55,Apartament 4 camere - Plopi,382.0,Mehala,4,False,2026-01-28 18:24:41.480867,2026-02-25 18:24:41.480867
+56,Apartament 1 camere - Fabric,374.0,Tipografiei,3,False,2026-02-14 18:24:41.480867,2026-03-20 18:24:41.480867
+57,Apartament 3 camere - Iosefin,232.0,Centru,2,False,2026-03-03 18:24:41.480867,2026-02-28 18:24:41.480867
+58,Apartament 4 camere - Girocului,275.0,Complexul Studentesc,3,False,2025-12-28 18:24:41.480867,2026-03-06 18:24:41.480867
+59,Apartament 1 camere - Centru,326.0,Dorobanți,2,False,2026-02-25 18:24:41.480867,2026-03-04 18:24:41.480867
+60,Apartament 3 camere - Mehala,378.0,Girocului,2,False,2026-01-13 18:24:41.480867,2026-03-06 18:24:41.480867
+61,Apartament 4 camere - Dambovita,261.0,Fabric,2,,2026-02-06 18:24:41.480867,2026-03-15 18:24:41.480867
+62,Apartament 3 camere - Buziaș,285.0,Micălaca,3,False,2026-02-26 18:24:41.480867,2026-02-25 18:24:41.480867
+63,Apartament 2 camere - Plopi,211.0,Moghioroș,1,False,2026-02-03 18:24:41.480867,2026-02-28 18:24:41.480867
+64,Apartament 3 camere - Mehala,204.0,Girocului,1,False,2026-03-22 18:24:41.480867,2026-03-02 18:24:41.480867
+65,Apartament 2 camere - Mehala,365.0,Fabric,1,False,2026-02-15 18:24:41.480867,2026-03-10 18:24:41.480867
+66,Apartament 2 camere - Fabric,408.0,Mehala,1,False,2026-01-26 18:24:41.480867,2026-03-16 18:24:41.480867
+67,Apartament 4 camere - Tipografiei,294.0,Micălaca,3,False,2025-12-27 18:24:41.480867,2026-03-25 18:24:41.480867
+68,Apartament 4 camere - Fabric,380.0,Centru,3,False,2026-02-07 18:24:41.480867,2026-03-02 18:24:41.480867
+69,Apartament 4 camere - Moghioroș,328.0,Dambovita,2,,2026-02-06 18:24:41.480867,2026-03-15 18:24:41.480867
+70,Apartament 2 camere - Plopi,248.0,Moghioroș,1,False,2026-01-02 18:24:41.480867,2026-03-27 18:24:41.480867
+71,Apartament 4 camere - Moghioroș,328.0,Moghioroș,2,False,2026-01-03 18:24:41.480867,2026-03-19 18:24:41.480867
+72,Apartament 1 camere - Complexul Studentesc,423.0,Moghioroș,2,False,2026-03-08 18:24:41.480867,2026-03-10 18:24:41.480867
+73,Apartament 4 camere - Moghioroș,297.0,Tipografiei,1,False,2026-01-23 18:24:41.480867,2026-03-24 18:24:41.480867
+74,Apartament 2 camere - Centru,425.0,Iosefin,2,False,2026-03-23 18:24:41.480867,2026-03-13 18:24:41.480867
+75,Apartament 1 camere - Centru,90.0,Tipografiei,2,True,2026-03-11 18:24:41.480867,2026-03-16 18:24:41.480867
+76,Apartament 2 camere - Complexul Studentesc,365.0,Fabric,3,True,2026-01-22 18:24:41.480867,2026-03-06 18:24:41.480867
+77,Apartament 4 camere - Moghioroș,306.0,Plopi,3,True,2026-01-11 18:24:41.480867,2026-03-04 18:24:41.480867
+78,Apartament 1 camere - Tipografiei,276.0,Girocului,1,False,2026-02-13 18:24:41.480867,2026-03-06 18:24:41.480867
+79,Apartament 4 camere - Iosefin,307.0,Moghioroș,2,,2026-03-15 18:24:41.480867,2026-03-19 18:24:41.480867
+80,Apartament 1 camere - Dambovita,140.0,Centru,3,False,2026-01-30 18:24:41.480867,2026-03-09 18:24:41.480867
+81,Apartament 1 camere - Dambovita,282.0,Centru,2,False,2026-03-15 18:24:41.480867,2026-03-15 18:24:41.480867
+82,Apartament 4 camere - Micălaca,328.0,Plopi,3,True,2026-01-19 18:24:41.480867,2026-03-01 18:24:41.480867
+83,Apartament 3 camere - Plopi,418.0,Plopi,3,True,2026-01-28 18:24:41.480867,2026-03-07 18:24:41.480867
+84,Apartament 2 camere - Iosefin,258.0,Girocului,1,False,2026-03-26 18:24:41.480867,2026-02-25 18:24:41.480867
+85,Apartament 1 camere - Moghioroș,235.0,Mehala,1,False,2026-03-09 18:24:41.480867,2026-03-16 18:24:41.480867
+86,Apartament 1 camere - Moghioroș,259.0,Fabric,3,False,2026-02-03 18:24:41.480867,2026-03-24 18:24:41.480867
+87,Apartament 4 camere - Mehala,373.0,Micălaca,1,,2026-01-03 18:24:41.480867,2026-03-06 18:24:41.480867
+88,Apartament 1 camere - Dambovita,326.0,Tipografiei,2,False,2026-03-08 18:24:41.480867,2026-03-20 18:24:41.480867
+89,Apartament 2 camere - Mehala,257.0,Moghioroș,4,False,2026-03-18 18:24:41.480867,2026-03-12 18:24:41.480867
+90,Apartament 1 camere - Moghioroș,341.0,Micălaca,2,True,2026-01-26 18:24:41.480867,2026-03-27 18:24:41.480867
+91,Apartament 1 camere - Complexul Studentesc,307.0,Moghioroș,2,True,2026-02-22 18:24:41.480867,2026-03-08 18:24:41.480867
+92,Apartament 4 camere - Complexul Studentesc,377.0,Micălaca,3,False,2026-02-12 18:24:41.480867,2026-02-27 18:24:41.480867
+93,Apartament 4 camere - Dorobanți,243.0,Iosefin,2,False,2026-01-07 18:24:41.480867,2026-02-25 18:24:41.480867
+94,Apartament 1 camere - Complexul Studentesc,273.0,Moghioroș,2,False,2025-12-29 18:24:41.480867,2026-03-10 18:24:41.480867
+95,Apartament 4 camere - Complexul Studentesc,268.0,Micălaca,4,False,2026-02-05 18:24:41.480867,2026-03-17 18:24:41.480867
+96,Apartament 3 camere - Fabric,182.0,Fabric,2,False,2026-01-03 18:24:41.480867,2026-02-26 18:24:41.480867
+97,Apartament 3 camere - Girocului,323.0,Tipografiei,4,,2026-03-17 18:24:41.480867,2026-03-08 18:24:41.480867
+98,Apartament 3 camere - Tipografiei,320.0,Buziaș,4,True,2026-02-13 18:24:41.480867,2026-03-20 18:24:41.480867
+99,Apartament 1 camere - Centru,300.0,Tipografiei,1,False,2025-12-31 18:24:41.480867,2026-03-07 18:24:41.480867
+100,Apartament 1 camere - Centru,281.0,Plopi,1,False,2026-01-18 18:24:41.480867,2026-03-25 18:24:41.480867
+101,Apartament 3 camere - Iosefin,186.0,Buziaș,1,False,2026-02-07 18:24:41.480867,2026-03-07 18:24:41.480867
+102,Apartament 3 camere - Complexul Studentesc,266.0,Micălaca,1,False,2026-02-15 18:24:41.480867,2026-03-01 18:24:41.480867
+103,Apartament 1 camere - Moghioroș,272.0,Fabric,1,False,2026-01-06 18:24:41.480867,2026-03-13 18:24:41.480867
+104,Apartament 1 camere - Iosefin,235.0,Buziaș,3,False,2026-01-24 18:24:41.480867,2026-02-26 18:24:41.480867
+105,Apartament 2 camere - Complexul Studentesc,287.0,Mehala,1,False,2026-01-17 18:24:41.480867,2026-03-05 18:24:41.480867
+106,Apartament 1 camere - Tipografiei,332.0,Moghioroș,2,,2026-03-23 18:24:41.480867,2026-03-18 18:24:41.480867
+107,Apartament 3 camere - Fabric,450.0,Centru,3,False,2026-01-07 18:24:41.480867,2026-03-07 18:24:41.480867
+108,Apartament 2 camere - Buziaș,313.0,Centru,1,False,2026-03-19 18:24:41.480867,2026-03-14 18:24:41.480867
+109,Apartament 1 camere - Dambovita,320.0,Mehala,3,False,2026-02-25 18:24:41.480867,2026-03-24 18:24:41.480867
+110,Apartament 2 camere - Dorobanți,294.0,Centru,2,False,2026-01-06 18:24:41.480867,2026-03-23 18:24:41.480867
+111,Apartament 4 camere - Dambovita,146.0,Iosefin,1,True,2025-12-30 18:24:41.480867,2026-03-26 18:24:41.480867
+112,Apartament 3 camere - Tipografiei,297.0,Micălaca,3,,2026-02-19 18:24:41.480867,2026-02-25 18:24:41.480867
+113,Apartament 2 camere - Micălaca,304.0,Mehala,3,True,2026-02-26 18:24:41.480867,2026-03-26 18:24:41.480867
+114,Apartament 1 camere - Buziaș,497.0,Plopi,3,False,2026-03-16 18:24:41.480867,2026-03-18 18:24:41.480867
+115,Apartament 1 camere - Micălaca,284.0,Complexul Studentesc,3,False,2026-01-31 18:24:41.480867,2026-03-12 18:24:41.480867
+116,Apartament 2 camere - Dambovita,324.0,Tipografiei,3,False,2026-03-15 18:24:41.480867,2026-03-24 18:24:41.480867
+117,Apartament 2 camere - Complexul Studentesc,297.0,Micălaca,2,True,2026-01-05 18:24:41.480867,2026-03-24 18:24:41.480867
+118,Apartament 4 camere - Dorobanți,206.0,Tipografiei,1,False,2025-12-27 18:24:41.480867,2026-03-20 18:24:41.480867
+119,Apartament 2 camere - Micălaca,391.0,Dorobanți,3,False,2026-03-15 18:24:41.480867,2026-02-27 18:24:41.480867
+120,Apartament 1 camere - Centru,360.0,Complexul Studentesc,3,False,2026-01-30 18:24:41.480867,2026-03-10 18:24:41.480867
+121,Apartament 1 camere - Iosefin,363.0,Moghioroș,4,False,2026-03-06 18:24:41.480867,2026-03-23 18:24:41.480867
+122,Apartament 4 camere - Buziaș,227.0,Girocului,2,False,2025-12-29 18:24:41.480867,2026-03-15 18:24:41.480867
+123,Apartament 4 camere - Complexul Studentesc,412.0,Plopi,2,False,2026-02-17 18:24:41.480867,2026-03-13 18:24:41.480867
+124,Apartament 4 camere - Buziaș,187.0,Dorobanți,3,True,2026-03-24 18:24:41.480867,2026-03-16 18:24:41.480867
+125,Apartament 2 camere - Plopi,346.0,Buziaș,2,False,2026-03-22 18:24:41.480867,2026-03-06 18:24:41.480867
+126,Apartament 1 camere - Fabric,475.0,Micălaca,4,False,2026-02-14 18:24:41.480867,2026-02-25 18:24:41.480867
+127,Apartament 4 camere - Dambovita,220.0,Moghioroș,3,False,2026-03-20 18:24:41.480867,2026-03-04 18:24:41.480867
+128,Apartament 4 camere - Fabric,254.0,Tipografiei,2,True,2026-02-18 18:24:41.480867,2026-03-05 18:24:41.480867
+129,Apartament 2 camere - Buziaș,307.0,Plopi,3,False,2026-02-10 18:24:41.480867,2026-02-25 18:24:41.480867
+130,Apartament 4 camere - Dorobanți,259.0,Fabric,3,False,2026-02-08 18:24:41.480867,2026-03-10 18:24:41.480867
+131,Apartament 4 camere - Iosefin,175.0,Tipografiei,1,False,2026-01-31 18:24:41.480867,2026-03-14 18:24:41.480867
+132,Apartament 1 camere - Tipografiei,305.0,Moghioroș,4,False,2026-03-09 18:24:41.480867,2026-03-09 18:24:41.480867
+133,Apartament 4 camere - Complexul Studentesc,215.0,Plopi,2,False,2026-02-24 18:24:41.480867,2026-03-04 18:24:41.480867
+134,Apartament 4 camere - Plopi,337.0,Buziaș,3,False,2026-01-19 18:24:41.480867,2026-03-04 18:24:41.480867
+135,Apartament 4 camere - Moghioroș,226.0,Plopi,2,True,2026-02-03 18:24:41.480867,2026-03-23 18:24:41.480867
+136,Apartament 3 camere - Girocului,423.0,Micălaca,3,False,2026-01-14 18:24:41.480867,2026-02-27 18:24:41.480867
+137,Apartament 2 camere - Girocului,237.0,Dambovita,2,True,2025-12-30 18:24:41.480867,2026-03-14 18:24:41.480867
+138,Apartament 4 camere - Moghioroș,274.0,Tipografiei,1,False,2026-03-04 18:24:41.480867,2026-03-07 18:24:41.480867
+139,Apartament 2 camere - Buziaș,365.0,Fabric,4,True,2026-03-06 18:24:41.480867,2026-03-24 18:24:41.480867
+140,Apartament 3 camere - Fabric,201.0,Tipografiei,1,True,2026-03-05 18:24:41.480867,2026-03-01 18:24:41.480867
+141,Apartament 1 camere - Micălaca,318.0,Moghioroș,2,False,2026-03-17 18:24:41.480867,2026-03-12 18:24:41.480867
+142,Apartament 1 camere - Fabric,404.0,Dorobanți,4,False,2026-01-08 18:24:41.480867,2026-03-08 18:24:41.480867
+143,Apartament 3 camere - Tipografiei,171.0,Plopi,4,False,2026-02-07 18:24:41.480867,2026-03-14 18:24:41.480867
+144,Apartament 3 camere - Buziaș,314.0,Moghioroș,2,,2026-01-07 18:24:41.480867,2026-02-25 18:24:41.480867
+145,Apartament 2 camere - Micălaca,320.0,Girocului,3,False,2025-12-30 18:24:41.480867,2026-02-25 18:24:41.480867
+146,Apartament 1 camere - Plopi,362.0,Dambovita,2,False,2026-02-25 18:24:41.480867,2026-03-19 18:24:41.480867
+147,Apartament 2 camere - Iosefin,201.0,Centru,2,False,2026-01-23 18:24:41.480867,2026-03-26 18:24:41.480867
+148,Apartament 3 camere - Buziaș,194.0,Micălaca,2,False,2026-01-12 18:24:41.480867,2026-03-05 18:24:41.480867
+149,Apartament 1 camere - Fabric,341.0,Moghioroș,3,False,2026-03-09 18:24:41.480867,2026-03-16 18:24:41.480867
+150,Apartament 4 camere - Mehala,323.0,Iosefin,3,False,2026-02-26 18:24:41.480867,2026-03-21 18:24:41.480867
+151,Apartament 4 camere - Centru,320.0,Buziaș,3,False,2026-01-27 18:24:41.480867,2026-03-13 18:24:41.480867
+152,Apartament 2 camere - Micălaca,327.0,Mehala,3,False,2026-01-05 18:24:41.480867,2026-03-13 18:24:41.480867
+153,Apartament 2 camere - Tipografiei,245.0,Micălaca,1,False,2026-02-23 18:24:41.480867,2026-02-25 18:24:41.480867
+154,Apartament 4 camere - Moghioroș,318.0,Mehala,2,False,2026-01-28 18:24:41.480867,2026-03-20 18:24:41.480867
+155,Apartament 4 camere - Centru,323.0,Moghioroș,1,False,2026-02-23 18:24:41.480867,2026-02-28 18:24:41.480867
+156,Apartament 1 camere - Centru,242.0,Buziaș,2,True,2026-01-01 18:24:41.480867,2026-03-16 18:24:41.480867
+157,Apartament 3 camere - Moghioroș,449.0,Dorobanți,2,False,2026-03-26 18:24:41.480867,2026-03-24 18:24:41.480867
+158,Apartament 4 camere - Mehala,337.0,Micălaca,3,False,2026-01-27 18:24:41.480867,2026-03-06 18:24:41.480867
+159,Apartament 4 camere - Centru,204.0,Tipografiei,2,False,2026-02-19 18:24:41.480867,2026-03-16 18:24:41.480867
+160,Apartament 4 camere - Dorobanți,352.0,Plopi,1,False,2025-12-31 18:24:41.480867,2026-03-10 18:24:41.480867
+161,Apartament 4 camere - Dorobanți,222.0,Fabric,1,True,2026-01-17 18:24:41.480867,2026-02-27 18:24:41.480867
+162,Apartament 2 camere - Buziaș,362.0,Complexul Studentesc,3,False,2026-03-07 18:24:41.480867,2026-03-07 18:24:41.480867
+163,Apartament 2 camere - Micălaca,392.0,Dorobanți,3,False,2026-03-18 18:24:41.480867,2026-03-16 18:24:41.480867
+164,Apartament 4 camere - Micălaca,234.0,Iosefin,1,False,2026-01-30 18:24:41.480867,2026-03-26 18:24:41.480867
+165,Apartament 3 camere - Moghioroș,377.0,Complexul Studentesc,1,False,2026-02-11 18:24:41.480867,2026-03-15 18:24:41.480867
+166,Apartament 2 camere - Plopi,333.0,Dorobanți,3,False,2026-01-11 18:24:41.480867,2026-03-19 18:24:41.480867
+167,Apartament 1 camere - Centru,365.0,Complexul Studentesc,1,False,2026-02-17 18:24:41.480867,2026-03-21 18:24:41.480867
+168,Apartament 2 camere - Dorobanți,451.0,Complexul Studentesc,3,False,2026-01-05 18:24:41.480867,2026-02-25 18:24:41.480867
+169,Apartament 1 camere - Fabric,280.0,Buziaș,3,False,2026-02-01 18:24:41.480867,2026-03-24 18:24:41.480867
+170,Apartament 2 camere - Dambovita,,Tipografiei,1,,2025-12-29 18:24:41.480867,2026-02-25 18:24:41.480867
+171,Apartament 3 camere - Micălaca,228.0,Dambovita,1,False,2026-02-23 18:24:41.480867,2026-02-28 18:24:41.480867
+172,Apartament 3 camere - Plopi,234.0,Buziaș,4,False,2026-01-28 18:24:41.480867,2026-03-01 18:24:41.480867
+173,Apartament 3 camere - Micălaca,293.0,Plopi,2,,2026-02-17 18:24:41.480867,2026-03-13 18:24:41.480867
+174,Apartament 1 camere - Centru,327.0,Centru,2,False,2026-03-02 18:24:41.480867,2026-03-25 18:24:41.480867
+175,Apartament 3 camere - Mehala,322.0,Dorobanți,3,False,2026-02-06 18:24:41.480867,2026-03-06 18:24:41.480867
+176,Apartament 3 camere - Plopi,366.0,Plopi,4,False,2026-01-25 18:24:41.480867,2026-03-21 18:24:41.480867
+177,Apartament 4 camere - Dorobanți,301.0,Buziaș,4,True,2026-03-14 18:24:41.480867,2026-03-07 18:24:41.480867
+178,Apartament 2 camere - Plopi,416.0,Mehala,3,False,2026-02-25 18:24:41.480867,2026-03-07 18:24:41.480867
+179,Apartament 2 camere - Dorobanți,278.0,Girocului,2,False,2026-02-07 18:24:41.480867,2026-03-08 18:24:41.480867
+180,Apartament 1 camere - Fabric,517.0,Dorobanți,1,False,2026-01-13 18:24:41.480867,2026-03-27 18:24:41.480867
+181,Apartament 3 camere - Buziaș,350.0,Fabric,3,False,2026-02-10 18:24:41.480867,2026-03-26 18:24:41.480867
+182,Apartament 4 camere - Girocului,231.0,Tipografiei,2,False,2026-01-13 18:24:41.480867,2026-03-02 18:24:41.480867
+183,Apartament 4 camere - Mehala,214.0,Iosefin,2,False,2026-02-18 18:24:41.480867,2026-03-17 18:24:41.480867
+184,Apartament 2 camere - Centru,338.0,Mehala,4,True,2025-12-28 18:24:41.480867,2026-03-20 18:24:41.480867
+185,Apartament 4 camere - Tipografiei,282.0,Girocului,1,True,2026-02-18 18:24:41.480867,2026-03-23 18:24:41.480867
+186,Apartament 1 camere - Centru,357.0,Dorobanți,2,False,2026-03-25 18:24:41.480867,2026-03-02 18:24:41.480867
+187,Apartament 2 camere - Buziaș,337.0,Girocului,1,True,2026-01-02 18:24:41.480867,2026-03-09 18:24:41.480867
+188,Apartament 2 camere - Girocului,294.0,Moghioroș,2,False,2026-02-05 18:24:41.480867,2026-03-21 18:24:41.480867
+189,Apartament 4 camere - Micălaca,232.0,Mehala,1,False,2026-02-20 18:24:41.480867,2026-03-25 18:24:41.480867
+190,Apartament 4 camere - Fabric,178.0,Dorobanți,1,False,2026-03-26 18:24:41.480867,2026-03-01 18:24:41.480867
+191,Apartament 2 camere - Mehala,264.0,Iosefin,1,True,2026-01-14 18:24:41.480867,2026-03-03 18:24:41.480867
+192,Apartament 3 camere - Plopi,368.0,Girocului,3,False,2025-12-30 18:24:41.480867,2026-03-10 18:24:41.480867
+193,Apartament 4 camere - Dambovita,317.0,Tipografiei,3,False,2026-03-21 18:24:41.480867,2026-03-21 18:24:41.480867
+194,Apartament 1 camere - Dambovita,200.0,Buziaș,2,True,2026-01-09 18:24:41.480867,2026-03-09 18:24:41.480867
+195,Apartament 3 camere - Mehala,313.0,Fabric,4,False,2026-01-23 18:24:41.480867,2026-03-21 18:24:41.480867
+196,Apartament 2 camere - Buziaș,330.0,Buziaș,2,False,2026-02-19 18:24:41.480867,2026-03-01 18:24:41.480867
+197,Apartament 1 camere - Tipografiei,229.0,Dambovita,2,False,2026-02-26 18:24:41.480867,2026-02-28 18:24:41.480867
+198,Apartament 4 camere - Dorobanți,312.0,Tipografiei,3,False,2026-01-09 18:24:41.480867,2026-03-20 18:24:41.480867
+199,Apartament 4 camere - Iosefin,304.0,Tipografiei,2,True,2026-02-10 18:24:41.480867,2026-03-17 18:24:41.481867
+200,Apartament 1 camere - Complexul Studentesc,208.0,Girocului,4,False,2026-02-27 18:24:41.480867,2026-03-03 18:24:41.481867
+201,Apartament 4 camere - Mehala,328.0,Complexul Studentesc,1,True,2026-01-05 18:24:41.480867,2026-03-23 18:24:41.481867
+202,Apartament 4 camere - Buziaș,344.0,Plopi,4,False,2026-03-03 18:24:41.480867,2026-03-02 18:24:41.481867
+203,Apartament 4 camere - Complexul Studentesc,386.0,Dambovita,1,False,2026-01-07 18:24:41.480867,2026-02-27 18:24:41.481867
+204,Apartament 1 camere - Moghioroș,384.0,Complexul Studentesc,3,False,2026-02-23 18:24:41.480867,2026-03-08 18:24:41.481867
+205,Apartament 1 camere - Micălaca,189.0,Dambovita,2,True,2025-12-31 18:24:41.480867,2026-03-27 18:24:41.481867
+206,Apartament 4 camere - Mehala,224.0,Complexul Studentesc,4,False,2026-01-02 18:24:41.480867,2026-03-19 18:24:41.481867

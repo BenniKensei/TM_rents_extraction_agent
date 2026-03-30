@@ -1,0 +1,151 @@
+{
+  "extraction_time": "2026-03-27T18:24:41.525225",
+  "record_count": 206,
+  "column_count": 8,
+  "schema": {
+    "id": {
+      "dtype": "int64",
+      "null_count": 0,
+      "null_percent": 0.0
+    },
+    "title": {
+      "dtype": "str",
+      "null_count": 0,
+      "null_percent": 0.0
+    },
+    "monthly_rent_eur": {
+      "dtype": "float64",
+      "null_count": 4,
+      "null_percent": 1.9417475728155338
+    },
+    "neighborhood": {
+      "dtype": "str",
+      "null_count": 0,
+      "null_percent": 0.0
+    },
+    "rooms": {
+      "dtype": "int64",
+      "null_count": 0,
+      "null_percent": 0.0
+    },
+    "is_pet_friendly": {
+      "dtype": "object",
+      "null_count": 13,
+      "null_percent": 6.310679611650485
+    },
+    "first_seen": {
+      "dtype": "datetime64[us]",
+      "null_count": 0,
+      "null_percent": 0.0
+    },
+    "last_seen": {
+      "dtype": "datetime64[us]",
+      "null_count": 0,
+      "null_percent": 0.0
+    }
+  },
+  "null_distribution": {
+    "monthly_rent_eur": {
+      "null_count": 4,
+      "null_percent": 1.94,
+      "non_null_count": 202
+    },
+    "neighborhood": {
+      "null_count": 0,
+      "null_percent": 0.0,
+      "non_null_count": 206
+    },
+    "rooms": {
+      "null_count": 0,
+      "null_percent": 0.0,
+      "non_null_count": 206
+    },
+    "is_pet_friendly": {
+      "null_count": 13,
+      "null_percent": 6.31,
+      "non_null_count": 193
+    }
+  },
+  "numeric_statistics": {
+    "rooms": {
+      "count": 206,
+      "mean": 2.2815533980582523,
+      "median": 2.0,
+      "std": 0.9516863156924144,
+      "min": 1.0,
+      "max": 4.0,
+      "q1": 2.0,
+      "q3": 3.0,
+      "iqr": 1.0
+    },
+    "monthly_rent_eur": {
+      "count": 202,
+      "mean": 299.1782178217822,
+      "median": 304.0,
+      "std": 77.86196435568172,
+      "min": 90.0,
+      "max": 645.0,
+      "q1": 245.0,
+      "q3": 342.5,
+      "iqr": 97.5
+    }
+  },
+  "anomalies": {
+    "rooms": {
+      "lower_bound": 0.5,
+      "upper_bound": 4.5,
+      "outlier_count": 0,
+      "outlier_percent": 0.0,
+      "outlier_values": []
+    },
+    "monthly_rent_eur": {
+      "lower_bound": 98.75,
+      "upper_bound": 488.75,
+      "outlier_count": 4,
+      "outlier_percent": 1.94,
+      "outlier_values": [
+        645.0,
+        90.0,
+        497.0,
+        517.0
+      ]
+    }
+  },
+  "categorical_analysis": {
+    "neighborhood": {
+      "unique_values": 13,
+      "top_5": {
+        "Tipografiei": 23,
+        "Moghioro\u0219": 20,
+        "Mic\u0103laca": 19,
+        "Plopi": 17,
+        "Doroban\u021bi": 16
+      },
+      "distribution": {
+        "Tipografiei": 23,
+        "Moghioro\u0219": 20,
+        "Mic\u0103laca": 19,
+        "Plopi": 17,
+        "Doroban\u021bi": 16,
+        "Dambovita": 16,
+        "Girocului": 15,
+        "Mehala": 15,
+        "Fabric": 15,
+        "Buzia\u0219": 15,
+        "Centru": 12,
+        "Iosefin": 12,
+        "Complexul Studentesc": 11
+      }
+    },
+    "is_pet_friendly": {
+      "true_count": 29,
+      "false_count": 164,
+      "null_count": 0,
+      "distribution": {
+        "false": 164,
+        "true": 29,
+        "null": 13
+      }
+    }
+  }
+}

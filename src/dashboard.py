@@ -2,6 +2,11 @@ import streamlit as st
 import pandas as pd
 import psycopg2
 import os
+import requests
+from dotenv import load_dotenv
+from data_cleaning import clean_listings_data
+
+load_dotenv()
 
 st.set_page_config(
     page_title="Timișoara Real Estate Market Analytics", page_icon="🏠", layout="wide"
@@ -28,10 +33,19 @@ def get_db_connection():
 
 @st.cache_data(ttl=60)
 def load_data():
-    """Fetch all records from the timisoara_rents table."""
+    """Fetch all records from the timisoara_rents table or local CSV fallback."""
     conn = get_db_connection()
-    if conn is None:
+    
+    # Define fallback mechanism
+    def load_fallback():
+        csv_path = "timisoara_rents_extracted.csv"
+        if os.path.exists(csv_path):
+            st.info("⚠️ Falling back to local CSV file due to database connection issues.")
+            return pd.read_csv(csv_path)
         return pd.DataFrame()
+
+    if conn is None:
+        return load_fallback()
 
     query = "SELECT * FROM timisoara_rents;"
     try:
@@ -39,11 +53,12 @@ def load_data():
         return df
     except Exception as e:
         st.error(f"Error fetching data: {e}")
-        return pd.DataFrame()
+        return load_fallback()
 
 
 # Load the listings data
 df = load_data()
+df = clean_listings_data(df)
 
 if df.empty:
     st.warning("No data found in the `timisoara_rents` table.")
@@ -92,3 +107,61 @@ else:
         df_sorted = df
 
     st.dataframe(df_sorted, use_container_width=True, hide_index=True)
+
+    st.markdown("---")
+
+    # Interactive ML Prediction Block
+    st.subheader("🤖 AI Rent Price Estimator")
+    st.write("Enter apartment specifications to evaluate if the asking price is a Great Deal, Fair, or Overpriced based on our XGBoost model.")
+
+    with st.form("prediction_form"):
+        col_a, col_b = st.columns(2)
+        with col_a:
+            # Safely extract unique neighborhoods previously populated from database
+            neighborhoods = df['neighborhood'].dropna().unique().tolist()
+            if not neighborhoods:
+                neighborhoods = ["Centru", "Complexul Studentesc"] # Fallback
+            
+            sc_neighborhood = st.selectbox("Neighborhood", sorted(neighborhoods))
+            sc_rooms = st.slider("Rooms", 1, 6, 2)
+            
+        with col_b:
+            sc_asking_price = st.number_input("Asking Price (EUR)", min_value=50, max_value=5000, value=400, step=10)
+            sc_pet = st.checkbox("Is Pet Friendly?", value=False)
+            
+        submit_btn = st.form_submit_button("Evaluate Price")
+
+    if submit_btn:
+        api_url = "http://127.0.0.1:8000/predict"
+        payload = {
+            "neighborhood": sc_neighborhood,
+            "rooms": sc_rooms,
+            "is_pet_friendly": sc_pet
+        }
+        
+        try:
+            with st.spinner("Executing mathematical assessment..."):
+                response = requests.post(api_url, json=payload, timeout=5)
+            
+            if response.status_code == 200:
+                pred_price = response.json().get("predicted_rent_eur", 0.0)
+                
+                st.markdown(f"#### **Predicted Fair Market Rent:** €{pred_price:,.2f}")
+                
+                # Formulate structural boundaries natively (+/- 10%)
+                max_fair = pred_price * 1.10
+                min_fair = pred_price * 0.90
+                
+                delta = sc_asking_price - pred_price
+                delta_pct = (delta / pred_price) * 100 if pred_price > 0 else 0
+                
+                if sc_asking_price > max_fair:
+                    st.error(f"🚨 **Overpriced** by ~{delta_pct:.1f}% (Asking: €{sc_asking_price} vs Predicted: €{pred_price:,.2f})")
+                elif sc_asking_price < min_fair:
+                    st.success(f"🔥 **Great Deal!** Below market by ~{abs(delta_pct):.1f}% (Asking: €{sc_asking_price} vs Predicted: €{pred_price:,.2f})")
+                else:
+                    st.info(f"⚖️ **Fair Price**. Bound within the standard ±10% local market range (Asking: €{sc_asking_price} vs Predicted: €{pred_price:,.2f})")
+            else:
+                st.error(f"Error mapped from backend inference API: {response.text}")
+        except requests.exceptions.ConnectionError:
+            st.error("Cannot resolve the FASTAPI Prediction service. Please ensure `uvicorn src.api:app --reload` is running bound to port 8000.")
