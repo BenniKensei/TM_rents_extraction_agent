@@ -86,7 +86,7 @@ DISCORD_WEBHOOK_URL="your_webhook"
 DATABASE_URL="postgresql://postgres:[password]@[URL].pooler.supabase.com:6543/postgres"
 
 # 5. (Optional) Seed database with historical data
-python upload_backup.py
+python scripts/upload_backup.py
 
 # 6. Run Pipelines
 python src/agent.py
