@@ -85,13 +85,16 @@ GROQ_API_KEY="your_api_key"
 DISCORD_WEBHOOK_URL="your_webhook"
 DATABASE_URL="postgresql://postgres:[password]@[URL].pooler.supabase.com:6543/postgres"
 
-# 5. Run Pipelines
+# 5. (Optional) Seed database with historical data
+python upload_backup.py
+
+# 6. Run Pipelines
 python src/agent.py
 python src/model_training.py
 
-# 6. Launch Backend Inference Server
+# 7. Launch Backend Inference Server
 python -m uvicorn src.api:app --reload
 
-# 7. Launch Analytics Dashboard (in a separate terminal)
+# 8. Launch Analytics Dashboard (in a separate terminal)
 python -m streamlit run src/dashboard.py
 ```

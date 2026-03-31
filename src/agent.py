@@ -6,7 +6,6 @@ import asyncpg
 from dotenv import load_dotenv
 from pydantic import BaseModel, Field
 from playwright.async_api import async_playwright
-from groq import AsyncGroq
 
 load_dotenv()
 
@@ -105,24 +104,22 @@ async def scrape_pages(base_url: str, num_pages: int = 5) -> list[str]:
     return texts
 
 
-async def extract_with_groq(text: str) -> Listings | None:
-    """Send the extracted text to Groq for structured extraction."""
-    client = AsyncGroq()  # Uses GROQ_API_KEY from .env
-
+async def extract_with_slm(text: str) -> Listings | None:
+    """Send the extracted text to a local Ollama SLM for structured extraction."""
     schema = Listings.model_json_schema()
 
-    print("Sending text to Groq for structured extraction...")
-    response = await client.chat.completions.create(
-        model="llama-3.1-8b-instant",
-        messages=[
+    print("Sending text to local Ollama (llama3.2) for structured extraction...")
+    
+    payload = {
+        "model": "llama3.2",
+        "messages": [
             {
                 "role": "system",
                 "content": (
                     "You are a real estate data extraction assistant. "
-                    "Extract every apartment listing visible in the provided webpage text. "
-                    "Be thorough — do not skip any listings. "
-                    "Return valid JSON matching this exact schema:\n\n"
-                    f"{json.dumps(schema, indent=2)}"
+                    "Extract every single apartment listing visible in the provided webpage text. "
+                    "You MUST reply ONLY with valid JSON exactly matching this structure:\n"
+                    '{\n  "listings": [\n    {\n      "title": "Sample Title",\n      "monthly_rent_eur": 500,\n      "neighborhood": "Centru",\n      "rooms": 2,\n      "is_pet_friendly": false\n    }\n  ]\n}'
                 ),
             },
             {
@@ -131,16 +128,56 @@ async def extract_with_groq(text: str) -> Listings | None:
                     "Extract ALL apartment listings from this real estate webpage text. "
                     "The prices are likely in RON — convert to EUR using a 5.0 exchange rate. "
                     "Set is_pet_friendly to true only if explicitly mentioned, otherwise false.\n\n"
-                    f"{text[:28000]}"
+                    f"{text[:10000]}"
                 ),
             },
         ],
-        response_format={"type": "json_object"},
-        temperature=0,
-    )
-    raw = response.choices[0].message.content
-    parsed = Listings.model_validate(json.loads(raw))
-    return parsed
+        "format": schema, # Enforces strict JSON Schema rendering natively in Ollama 0.4.0+
+        "stream": False,
+        "options": {
+            "temperature": 0.0
+        }
+    }
+
+    try:
+        # Give the local SLM 120 seconds to process the large text block context
+        async with aiohttp.ClientSession() as session:
+            async with session.post("http://localhost:11434/api/chat", json=payload, timeout=120) as response:
+                if response.status != 200:
+                    error_text = await response.text()
+                    print(f"Ollama API Error {response.status}: {error_text}")
+                    return None
+                
+                result = await response.json()
+                raw_json = result["message"]["content"]
+                
+                # Sanitize markdown ticks if the SLM accidentally wraps the JSON output
+                raw_json = raw_json.strip()
+                if raw_json.startswith("```json"):
+                    raw_json = raw_json[7:]
+                if raw_json.endswith("```"):
+                    raw_json = raw_json[:-3]
+                
+                # Attempt to parse and auto-correct structural SLM hallucinations
+                parsed_dict = json.loads(raw_json)
+                
+                # If the SLM hallucinated and forgot the root "listings" array wrapper
+                if "listings" not in parsed_dict:
+                    if isinstance(parsed_dict, list):
+                        parsed_dict = {"listings": parsed_dict}
+                    elif isinstance(parsed_dict, dict) and "title" in parsed_dict:
+                        parsed_dict = {"listings": [parsed_dict]}
+                    else:
+                        parsed_dict = {"listings": []}
+
+                parsed = Listings.model_validate(parsed_dict)
+                return parsed
+    except aiohttp.ClientError as e:
+        print(f"Failed to connect to Ollama. Ensure Ollama is running (`ollama run llama3.2`): {e}")
+        return None
+    except Exception as e:
+        print(f"Error parsing local SLM response: {e}")
+        return None
 
 
 async def evaluate_and_alert(listing: ApartmentListing) -> None:
@@ -174,7 +211,7 @@ async def save_to_db(data: Listings) -> None:
         print("Error: DATABASE_URL not found in environment variables.")
         return
 
-    conn = await asyncpg.connect(database_url)
+    conn = await asyncpg.connect(database_url, statement_cache_size=0)
 
     await conn.execute("""
     CREATE TABLE IF NOT EXISTS timisoara_rents (
@@ -226,7 +263,7 @@ async def main():
             print(f"Error: Extracted text is too short for page {i}. Skipping.")
             continue
 
-        listings_data = await extract_with_groq(text)
+        listings_data = await extract_with_slm(text)
         if listings_data:
             print(
                 f"Successfully extracted {len(listings_data.listings)} listings from page {i}:\n"
