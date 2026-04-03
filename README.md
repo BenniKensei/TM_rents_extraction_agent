@@ -3,6 +3,7 @@
 <div align="center">
 
 ![Streamlit Data Dashboard](assets/dashboard.png)
+
 *A live snapshot of the Streamlit analytics and interactive XGBoost price estimator generated dynamically from extracted web data.*
 
 </div>
