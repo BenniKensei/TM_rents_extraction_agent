@@ -3,6 +3,7 @@
 <div align="center">
 
 ![Streamlit Data Dashboard](assets/dashboard.png)
+
 *A live snapshot of the Streamlit analytics and interactive XGBoost price estimator, natively built on top of our daily extracted web data.*
 
 [![Python 3.12+](https://img.shields.io/badge/Python-3.12%2B-blue.svg)](https://www.python.org/)
