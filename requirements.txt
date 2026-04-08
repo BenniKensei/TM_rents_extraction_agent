@@ -1,0 +1,15 @@
+playwright
+pydantic
+groq
+python-dotenv
+asyncpg
+aiohttp
+streamlit
+psycopg2-binary
+fastapi[standard]
+uvicorn
+xgboost
+scikit-learn
+category_encoders
+joblib
+requests

@@ -1,19 +1,25 @@
-# AI-Powered Real Estate Web Extraction & Machine Learning Pipeline
+# 🏡 AI-Powered Real Estate Extraction & ML Pipeline
 
 <div align="center">
 
 ![Streamlit Data Dashboard](assets/dashboard.png)
+*A live snapshot of the Streamlit analytics and interactive XGBoost price estimator, natively built on top of our daily extracted web data.*
 
-*A live snapshot of the Streamlit analytics and interactive XGBoost price estimator generated dynamically from extracted web data.*
+[![Python 3.12+](https://img.shields.io/badge/Python-3.12%2B-blue.svg)](https://www.python.org/)
+[![FastAPI](https://img.shields.io/badge/FastAPI-009688?style=flat&logo=FastAPI&logoColor=white)](https://fastapi.tiangolo.com/)
+[![Streamlit](https://img.shields.io/badge/Streamlit-FF4B4B?style=flat&logo=Streamlit&logoColor=white)](https://streamlit.io/)
+[![Supabase](https://img.shields.io/badge/Supabase-3ECF8E?style=flat&logo=supabase&logoColor=white)](https://supabase.com/)
 
 </div>
 
-## Executive Summary
-This project represents an advanced, end-to-end data engineering and applied machine learning pipeline. It moves beyond brittle HTML/DOM parsers by leveraging Large Language Models (LLMs) to semantically comprehend and structure unstructured webpage text. It securely extracts daily apartment rental data from real estate domains, validates the schema, and persists the data to a remote cloud database. 
+## 📌 Executive Summary (What's this all about?)
+This project is an advanced, end-to-end data engineering and machine learning pipeline built to track the real estate market without breaking a sweat. It completely bypasses brittle HTML/DOM parsers. Instead, it leverages Large Language Models (LLMs) to natively comprehend unstructured webpage text. It securely extracts daily apartment rental data from real estate domains, validates the schema, and persists the data to a remote Supabase PostgreSQL database.
 
-Beyond extraction, the pipeline incorporates automated data cleaning, engineered features, and trains an XGBoost regression model to estimate fair market rental values. This intelligence is served via a high-performance FastAPI inference engine and consumed seamlessly by an interactive Streamlit frontend, providing end-users with real-time analytics and valuation thresholds.
+But extraction is just the start. The project incorporates automated data cleaning, engineered features, and an XGBoost regression model trained to estimate fair market rental values. This intelligence is served via a high-performance FastAPI inference engine and consumed securely by an interactive Streamlit frontend for real-time analytics.
 
-## System Architecture & Data Flow
+---
+
+## 🏗 System Architecture & Data Flow
 
 ```mermaid
 graph TD
@@ -29,21 +35,23 @@ graph TD
     J[GitHub Actions CI/CD] -.->|Triggers Daily at 8:00 AM| A
 ```
 
+## 🚀 How it Works
+
 ### 1. Web Automation (Playwright)
 - Deploys a headless Chromium browser running with anti-bot stealth configurations.
 - Intelligently bypasses cookie consent banners, handles pagination dynamically, and forces lazy-loaded elements to render by programmatically scrolling.
 
 ### 2. Semantic Extraction (LLM via Groq)
-- Cleans and isolates the relevant textual payload of the webpage text without needing fragile CSS selectors.
+- Cleans and isolates the relevant textual payload of the webpage without needing fragile CSS selectors.
 - Feeds the text into the Groq API, returning validated JSON mimicking structured intelligence.
 
 ### 3. Data Validation & Persistence (Pydantic & Supabase)
-- Strictly enforces schema parameters ensuring correct typing natively.
+- Strictly enforces schema parameters to ensure correct typing.
 - Replaces local persistence with a centralized Supabase PostgreSQL connection layer using asyncpg for fast, conflict-aware algorithmic inserts.
 
 ### 4. Data Engineering & Machine Learning (XGBoost)
-- Programmatically handles missing values and filters extreme statistical outliers using Interquartile Range (IQR) filtering.
-- Implements Target Encoding for high-cardinality categorical variables and synthesizes derived features like price-per-room.
+- Automatically handles missing values and filters extreme statistical outliers using Interquartile Range (IQR) filtering.
+- Implements Target Encoding for high-cardinality categorical variables.
 - Fits an XGBoost Decision Tree algorithm via randomized grid search to capture non-linear pricing patterns, serializing the resulting pipeline to disk.
 
 ### 5. Inference Backend (FastAPI)
@@ -52,20 +60,45 @@ graph TD
 
 ### 6. Analytics Visualizer (Streamlit)
 - Connects securely to the Supabase instance to generate a responsive UI offering real-time KPIs and rent distributions by neighborhood.
-- Integrates an interactive "AI Rent Estimator" allowing users to cross-reference an asking price against the FastAPI backend, receiving classification alerts (e.g., Overpriced, Great Deal) based on a 10% algorithmic threshold.
+- Integrates an interactive "AI Rent Estimator" allowing users to cross-reference an asking price against the FastAPI backend, easily classifying deals as Overpriced, Fair, or Great Deals.
 
 ### 7. CI/CD Automations (GitHub Actions & Webhooks)
-- Scraped apartments are evaluated against business rules, triggering asynchronous aiohttp requests to send formatted markdown alerts to Discord.
-- The repository utilizes GitHub Actions to provision a virtual machine, inject encrypted secrets, and autonomously trigger the entire data extraction routine daily at 8:00 AM UTC.
+- Scraped apartments are evaluated against business rules, triggering asynchronous requests to send formatted markdown alerts to Discord.
+- The repository utilizes GitHub Actions to provision a virtual machine, inject encrypted secrets, and autonomously trigger the complete data extraction routine daily.
 
-## Prerequisites
+---
+
+## 📁 Repository Structure
+
+```text
+.
+├── .github/workflows/       # CI/CD (GitHub Actions for the daily scraper job)
+├── assets/                  # UI images and serialized ML models (model.joblib)
+├── data/                    # Extracted CSVs, profiling reports, and SQL logs 
+├── scripts/                 # Utility scripts (e.g., Supabase seeders)
+├── src/                     # Core application source code (FastAPI, Streamlit, etc.)
+├── requirements.txt         # Project dependencies
+└── README.md                # You are here!
+```
+
+---
+
+## 🧠 What I Learned
+Working on this project was deeply rewarding and packed with practical challenges:
+- **DOM Parsers are incredibly fragile**: Relying on HTML structures is a losing game when websites update UI constantly. Switching to LLM-based semantic extraction felt like a massive paradigm shift.
+- **Handling Data Drift & Chaos**: Real estate listings are inherently messy. Integrating Pydantic to strictly type and validate incoming data saved the database from becoming a dumpster fire.
+- **Cloud Connections at Scale**: Migrating to a cloud DB (Supabase) meant handling connection pooling (`PgBouncer`) properly for async tasks to stop exhausting database limits. A fun and necessary learning curve!
+
+---
+
+## 🛠 Prerequisites
 
 - Python 3.12+
 - Supabase Account (Remote PostgreSQL configuration)
 - Discord Server (For Webhook integration)
 - Groq API Key
 
-## Local Quickstart
+## 💻 Local Quickstart
 
 ```bash
 # 1. Clone the repository
@@ -77,8 +110,7 @@ python -m venv venv
 .\venv\Scripts\activate
 
 # 3. Install packages & browser automation binaries
-pip install playwright pydantic groq python-dotenv asyncpg aiohttp streamlit psycopg2-binary
-pip install fastapi[standard] uvicorn xgboost scikit-learn category_encoders joblib requests
+pip install -r requirements.txt
 playwright install chromium
 
 # 4. Configure .env with the following keys

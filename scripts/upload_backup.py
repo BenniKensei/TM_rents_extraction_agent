@@ -9,7 +9,8 @@ load_dotenv()
 async def upload_backup():
     print("Loading local CSV backup...")
     try:
-        df = pd.read_csv("timisoara_rents_extracted.csv")
+        csv_path = os.path.join(os.path.dirname(__file__), '../data/timisoara_rents_extracted.csv')
+        df = pd.read_csv(csv_path)
         # Automatically scrub any NaN (null) values that pandas assigns to empty cells, avoiding math casting crashes
         df['monthly_rent_eur'] = df['monthly_rent_eur'].fillna(0)
         df['rooms'] = df['rooms'].fillna(1)
