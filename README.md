@@ -1,4 +1,4 @@
-# 🏡 AI-Powered Real Estate Extraction & ML Pipeline
+# AI-Powered Real Estate Extraction & ML Pipeline
 
 <div align="center">
 
@@ -12,14 +12,14 @@
 
 </div>
 
-## 📌 Executive Summary (What's this all about?)
+## I. Executive Summary (What's this all about?)
 This project is an advanced, end-to-end data engineering and machine learning pipeline built to track the real estate market without breaking a sweat. It completely bypasses brittle HTML/DOM parsers. Instead, it leverages Large Language Models (LLMs) to natively comprehend unstructured webpage text. It securely extracts daily apartment rental data from real estate domains, validates the schema, and persists the data to a remote Supabase PostgreSQL database.
 
 But extraction is just the start. The project incorporates automated data cleaning, engineered features, and an XGBoost regression model trained to estimate fair market rental values. This intelligence is served via a high-performance FastAPI inference engine and consumed securely by an interactive Streamlit frontend for real-time analytics.
 
 ---
 
-## 🏗 System Architecture & Data Flow
+## II. System Architecture & Data Flow
 
 ```mermaid
 graph TD
@@ -35,7 +35,7 @@ graph TD
     J[GitHub Actions CI/CD] -.->|Triggers Daily at 8:00 AM| A
 ```
 
-## 🚀 How it Works
+## III. How it Works
 
 ### 1. Web Automation (Playwright)
 - Deploys a headless Chromium browser running with anti-bot stealth configurations.
@@ -68,7 +68,7 @@ graph TD
 
 ---
 
-## 📁 Repository Structure
+## IV. Repository Structure
 
 ```text
 .
@@ -83,7 +83,7 @@ graph TD
 
 ---
 
-## 🧠 What I Learned
+## V. What I Learned
 Working on this project was deeply rewarding and packed with practical challenges:
 - **DOM Parsers are incredibly fragile**: Relying on HTML structures is a losing game when websites update UI constantly. Switching to LLM-based semantic extraction felt like a massive paradigm shift.
 - **Handling Data Drift & Chaos**: Real estate listings are inherently messy. Integrating Pydantic to strictly type and validate incoming data saved the database from becoming a dumpster fire.
@@ -91,14 +91,14 @@ Working on this project was deeply rewarding and packed with practical challenge
 
 ---
 
-## 🛠 Prerequisites
+## VI. Prerequisites
 
 - Python 3.12+
 - Supabase Account (Remote PostgreSQL configuration)
 - Discord Server (For Webhook integration)
 - Groq API Key
 
-## 💻 Local Quickstart
+## VII. Local Quickstart
 
 ```bash
 # 1. Clone the repository
