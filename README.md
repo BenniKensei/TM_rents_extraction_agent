@@ -1,13 +1,3 @@
-<div align="center">
-[![Python 3.12+](https://img.shields.io/badge/Python-3.12%2B-blue.svg)](https://www.python.org/)
-[![FastAPI](https://img.shields.io/badge/FastAPI-009688?style=flat&logo=FastAPI&logoColor=white)](https://fastapi.tiangolo.com/)
-[![Streamlit](https://img.shields.io/badge/Streamlit-FF4B4B?style=flat&logo=Streamlit&logoColor=white)](https://streamlit.io/)
-[![Supabase](https://img.shields.io/badge/Supabase-3ECF8E?style=flat&logo=supabase&logoColor=white)](https://supabase.com/)
-[![XGBoost](https://img.shields.io/badge/XGBoost-2.0.3-green.svg)](https://xgboost.readthedocs.io/)
-[![Ollama](https://img.shields.io/badge/Ollama-Local%20LLM-blue.svg)](https://ollama.ai/)
-
-</div>
-
 # AI-Powered Real Estate Extraction & ML Pipeline
 
 <div align="center">
@@ -15,6 +5,13 @@
 ![Streamlit Data Dashboard](assets/dashboard.png)
 
 *A live snapshot of the Streamlit analytics and interactive XGBoost price estimator, natively built on top of our daily extracted web data.*
+
+[![Python 3.12+](https://img.shields.io/badge/Python-3.12%2B-blue.svg)](https://www.python.org/)
+[![FastAPI](https://img.shields.io/badge/FastAPI-009688?style=flat&logo=FastAPI&logoColor=white)](https://fastapi.tiangolo.com/)
+[![Streamlit](https://img.shields.io/badge/Streamlit-FF4B4B?style=flat&logo=Streamlit&logoColor=white)](https://streamlit.io/)
+[![Supabase](https://img.shields.io/badge/Supabase-3ECF8E?style=flat&logo=supabase&logoColor=white)](https://supabase.com/)
+[![XGBoost](https://img.shields.io/badge/XGBoost-2.0.3-green.svg)](https://xgboost.readthedocs.io/)
+[![Ollama](https://img.shields.io/badge/Ollama-Local%20LLM-blue.svg)](https://ollama.ai/)
 
 </div>
 
