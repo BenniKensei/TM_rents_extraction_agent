@@ -53,115 +53,30 @@ historia.ro apartment listings (Timișoara, daily automated collection via GitHu
 
 ## II. Architecture & Pipeline
 
-### Data Flow Diagram
+The system follows a 7-stage data pipeline:
 
-```
-┌─────────────────────────────────────────────────────────────────────────┐
-│ AUTOMATED WEB EXTRACTION (GitHub Actions, Daily @ 8:00 AM)             │
-├─────────────────────────────────────────────────────────────────────────┤
-│  Playwright Browser                                                     │
-│  ├─ Anti-bot evasion (webdriver detection, real user-agent)            │
-│  ├─ Dynamic page rendering & lazy-loading trigger                      │
-│  ├─ Cookie consent auto-acceptance                                      │
-│  └─ Text extraction (5 pagination pages, ~50KB each)                   │
-└──────────────────────────┬──────────────────────────────────────────────┘
-                           │
-                           ▼
-┌─────────────────────────────────────────────────────────────────────────┐
-│ SEMANTIC EXTRACTION (Ollama llama3.2, Local GPU)                        │
-├─────────────────────────────────────────────────────────────────────────┤
-│  Small Language Model (3B params)                                       │
-│  ├─ JSON Schema enforced extraction (temperature=0.0)                   │
-│  ├─ Hallucination recovery (markdown cleanup, wrapper fixing)           │
-│  ├─ Multi-page batch processing                                        │
-│  └─ Output: Structured JSON (~10-50 listings per page)                │
-└──────────────────────────┬──────────────────────────────────────────────┘
-                           │
-                           ▼
-┌─────────────────────────────────────────────────────────────────────────┐
-│ BUSINESS LOGIC EVALUATION                                              │
-├─────────────────────────────────────────────────────────────────────────┤
-│  Alert Criteria: price ≤€350 AND location=="Complexul"                 │
-│  ├─ Matching listings → Discord webhook (real-time notification)       │
-│  └─ Non-matching listings → Continue pipeline                          │
-└──────────────────────────┬──────────────────────────────────────────────┘
-                           │
-                           ▼
-┌─────────────────────────────────────────────────────────────────────────┐
-│ DATABASE PERSISTENCE (Supabase PostgreSQL)                             │
-├─────────────────────────────────────────────────────────────────────────┤
-│  Async Upsert Logic (asyncpg)                                          │
-│  ├─ ON CONFLICT (title, neighborhood): Update price + timestamp        │
-│  ├─ Idempotent: Multiple runs → same DB state                         │
-│  ├─ Deduplication via temporal tracking (first_seen, last_seen)       │
-│  └─ Schema: 5 features + 2 timestamps per listing                     │
-└──────────────────────────┬──────────────────────────────────────────────┘
-                           │
-                           ▼
-┌─────────────────────────────────────────────────────────────────────────┐
-│ DATA ENGINEERING (Python: src/data_cleaning.py)                        │
-├─────────────────────────────────────────────────────────────────────────┤
-│  1. Deduplication: Keep latest observation per (title, neighborhood)   │
-│  2. Missing Value Handling: Drop null targets, impute categorical      │
-│  3. Outlier Detection: IQR method removes extreme prices/room counts   │
-│  └─ Output: Clean training dataset (500-1000 rows typical)            │
-└──────────────────────────┬──────────────────────────────────────────────┘
-                           │
-                           ▼
-┌─────────────────────────────────────────────────────────────────────────┐
-│ FEATURE ENGINEERING (Python: src/feature_engineering.py)              │
-├─────────────────────────────────────────────────────────────────────────┤
-│  1. Target Encoding: neighborhood (string) → mean_rent_per_area       │
-│  2. Binary Encoding: is_pet_friendly (bool) → {0, 1}                 │
-│  3. Derived Features: price_per_room = rent / rooms                  │
-│  └─ Output: Numerical feature matrix ready for ML                    │
-└──────────────────────────┬──────────────────────────────────────────────┘
-                           │
-                           ▼
-┌─────────────────────────────────────────────────────────────────────────┐
-│ MODEL TRAINING (XGBoost + scikit-learn)                               │
-├─────────────────────────────────────────────────────────────────────────┤
-│  Pipeline Steps:                                                       │
-│  ├─ 80/20 train/test split (random_state=42 for reproducibility)     │
-│  ├─ Hyperparameter Tuning: RandomizedSearchCV (15 iterations, 3-fold) │
-│  ├─ Best Config: learning_rate=0.1, max_depth=6, n_estimators=200   │
-│  ├─ Evaluation Metrics: MAE, RMSE, R²                                │
-│  └─ Serialization: Joblib dump (preprocessing + model, 1.2 MB)       │
-└──────────────────────────┬──────────────────────────────────────────────┘
-                           │
-                           ▼
-┌─────────────────────────────────────────────────────────────────────────┐
-│ PRODUCTION INFERENCE (FastAPI + Streamlit)                            │
-├─────────────────────────────────────────────────────────────────────────┤
-│  FastAPI Endpoint (/predict):                                         │
-│  ├─ Pydantic schema validation                                        │
-│  ├─ In-memory model lookup (<1ms)                                    │
-│  ├─ Preprocessing execution (target + binary encoding)                │
-│  └─ XGBoost prediction → JSON response (38ms total latency)          │
-│                                                                       │
-│  Streamlit Dashboard:                                                │
-│  ├─ Real-time KPI visualization (avg rent by neighborhood)           │
-│  ├─ Interactive data explorer (sortable listings table)              │
-│  ├─ AI Rent Estimator (linked to FastAPI, deal classification)      │
-│  └─ Price deviation display: Overpriced/Fair/Great Deal              │
-└─────────────────────────────────────────────────────────────────────────┘
-```
+1. **Web Scraping** (Playwright) - Anti-bot evasion, dynamic rendering
+2. **Semantic Extraction** (Ollama LLM) - JSON schema enforcement, hallucination recovery
+3. **Business Logic** - Alert rules (price ≤€350 AND "Complexul" location)
+4. **Database Upsert** (Supabase) - Idempotent ON CONFLICT handling
+5. **Data Engineering** - Deduplication, missing values, outlier detection
+6. **Feature Engineering** - Target encoding, binary encoding, derived features
+7. **Model Training & Inference** - XGBoost regression with RandomizedSearchCV tuning
 
-### Visual Architecture Diagram (Mermaid)
+### System Architecture (Mermaid)
 
 ```mermaid
 graph TD
-    A["Playwright Async<br/>(Browser Automation)"] -->|Raw Text Extract| B["Ollama llama3.2<br/>(Semantic LLM)")
-    B -->|Structured JSON Parsing| C{"Pydantic<br/>Validation"}
-    C -->|Valid Listings| D["Supabase PostgreSQL<br/>(asyncpg)"]
-    C -->|Business Rules<br/>Evaluation| I["Discord Webhook<br/>(Alerts)"]
-    D -->|Query Data| E["Data Cleaning<br/>(Dedup, Outliers)"]
-    E -->|Feature Eng| F["Target Encoding<br/>Binary Encoding"]
-    F -->|XGBoost Training| G["Serialized Pipeline<br/>(model.joblib)"]
-    G -->|Joblib Load| H["FastAPI<br/>(Inference Engine)"]
-    D -->|Query Listings| J["Streamlit<br/>(Analytics)"]
-    H -->|REST /predict| J
-    K["GitHub Actions<br/>CI/CD"] -.->|Triggers Daily 8 AM| A
+    A["Playwright<br/>Scraper"] -->|Raw Text| B["Ollama LLM"]
+    B -->|JSON| C{Validation}
+    C -->|Valid| D["PostgreSQL"]
+    C -->|Alert Rules| I["Discord"]
+    D -->|Data| E["Clean & Engineer"]
+    E -->|Features| F["XGBoost"]
+    F -->|model.joblib| G["FastAPI API"]
+    D -->|Query| H["Streamlit UI"]
+    G -->|Predict| H
+    J["GitHub Actions"] -.->|Daily 8 AM| A
 ```
 
 ### Technology Stack
@@ -287,10 +202,10 @@ curl -X POST "http://127.0.0.1:8000/predict" \
 
 ### Data Source
 
-**Website:**  
-historia.ro - Romanian real estate marketplace  
-**URL Pattern:** `https://www.storia.ro/ro/rezultate/inchiriere/apartament/timis/timisoara`  
-**Collection Method:** Automated daily via GitHub Actions (8:00 AM UTC)
+**Source:** historia.ro - Romanian real estate marketplace  
+**Collection:** Automated daily via GitHub Actions (8:00 AM UTC)  
+**Geographic Scope:** Timișoara, Romania (25+ neighborhoods)  
+**Data Points:** ~500 active apartment listings
 
 ### Data Schema
 
@@ -308,50 +223,15 @@ CREATE TABLE timisoara_rents (
 );
 ```
 
-### Data Acquisition Instructions
 
-#### Option A: Use Pre-Collected Data (Recommended for Quickstart)
+### Data Quality
 
-```bash
-# Sample dataset included in repo (200 synthetic listings)
-# Useful for training/testing without external dependencies
-python scripts/demo.py
-```
-
-#### Option B: Fetch from Supabase (Production Data)
-
-```python
-# src/scripts/data_profiler.py includes database querying
-from scripts.data_profiler import extract_data
-
-# Requires DATABASE_URL environment variable set
-df = extract_data(use_sample=False)  # Queries Supabase PostgreSQL
-print(f"Loaded {len(df)} real apartment listings")
-```
-
-#### Option C: Trigger Fresh Scrape (Real-Time Data)
-
-```bash
-# Requires Ollama llama3.2 running locally
-python src/agent.py
-
-# Execution steps:
-# 1. Scrape 5 pages from historia.ro (~60 seconds)
-# 2. Extract listings via Ollama LLM (~30 seconds)
-# 3. Evaluate business rules & send Discord alerts
-# 4. Upsert to PostgreSQL database (~5 seconds)
-# Total runtime: ~100 seconds
-```
-
-### Data Quality Metrics
-
-| Metric | Value | Assessment |
-|--------|-------|-----------|
-| **Completeness** | 98.5% | Missing values: <1.5% (handled via imputation) |
-| **Uniqueness** | 99.2% | Deduplication effective; rare duplicates detected |
-| **Validity** | 96.8% | Prices within [€200-€2000]; rooms in [1-6] |
-| **Timeliness** | Daily | Automated collection every 24 hours |
-| **Coverage** | 25+ neighborhoods | Broad geographic distribution |
+| Metric | Value |
+|--------|-------|
+| Completeness | 98.5% |
+| Uniqueness | 99.2% |
+| Validity | 96.8% |
+| Timeliness | Daily |
 
 ---
 
@@ -359,58 +239,41 @@ python src/agent.py
 
 ### Model Performance (Test Set Evaluation)
 
-| Metric | Value | Baseline | Improvement |
-|--------|-------|----------|-------------|
-| **MAE** | €68.32 | €120 (mean predictor) | ↓ 43% |
-| **RMSE** | €94.17 | €165 (mean predictor) | ↓ 43% |
-| **R² Score** | 0.7214 | 0.0 (mean predictor) | ↑ 72% |
-| **MAPE** | 11.8% | 25.3% | ↓ 53% |
+ | Metric | Value |
+ |--------|-------|
+ | **MAE** | €68.32 (43% vs baseline) |
+ | **RMSE** | €94.17 |
+ | **R² Score** | 0.7214 |
+ | **MAPE** | 11.8% |
 
 ### Per-Neighborhood Accuracy
-
-| Neighborhood | # Listings | MAE (€) | R² Score | Prediction Quality |
-|--------------|-----------|---------|----------|-------------------|
-| **Centru** | 145 | €52.15 | 0.78 | Excellent |
-| **Complexul Studentesc** | 98 | €61.47 | 0.75 | Good |
-| **Mehala** | 76 | €71.33 | 0.69 | Good |
-| **Nord** | 54 | €78.21 | 0.65 | Fair |
-| **Unknown** | 27 | €95.60 | 0.54 | Fair |
+ ### Per-Neighborhood Accuracy (Sample)
+ 
+ | Neighborhood | MAE | R² | Quality |
+ |--------------|-----|-----|---------|
+ | Centru | €52.15 | 0.78 | Excellent |
+ | Complexul Studentesc | €61.47 | 0.75 | Good |
+ | Mehala | €71.33 | 0.69 | Good |
 
 ### Feature Importance (XGBoost SHAP values)
-
-```
-Feature Importance Rankings:
-1. neighborhood (target-encoded) ......... 45.3%  (Primary rent driver)
-2. rooms (room count) ................... 38.7%  (Secondary predictor)
-3. is_pet_friendly (binary) ............. 16.0%  (Minor contributor)
-```
+ ### Feature Importance
+ 
+ - **neighborhood** (target-encoded): 45.3% - Primary rent driver
+ - **rooms**: 38.7% - Secondary predictor
+ - **is_pet_friendly**: 16.0% - Minor contributor
 
 ### Inference Performance
-
-```
-Latency Measurements (1000 requests):
-- Cold start (model load):          2.3 seconds
-- Warm inference (p50):             38 ms
-- Warm inference (p95):             62 ms
-- Warm inference (p99):             89 ms
-
-Throughput:
-- Single-threaded:                  ~26 requests/sec
-- 4 workers (production):           ~104 requests/sec
-```
+ ### Inference Performance
+ 
+ - **Cold start:** 2.3 seconds
+ - **Warm latency (p50):** 38 ms
+ - **Throughput (4 workers):** ~104 requests/sec
 
 ### Deal Classification Accuracy
-
-```
-Real Estate Deal Classification (±10% Price Bound):
-- True Positives (correctly classified as deals):      87%
-- True Negatives (correctly rejected as non-deals):    94%
-- False Positives (wrongly flagged as deals):          3%
-- False Negatives (missed actual deals):               13%
-
-Precision: 0.97 (high confidence in flagged deals)
-Recall: 0.87 (catches most opportunities)
-```
+ ### Deal Classification
+ 
+ - **Precision:** 0.97 (high confidence)
+ - **Recall:** 0.87 (catches most deals)
 
 ---
 
@@ -545,100 +408,44 @@ print('✅ Model training is reproducible')
 ## VII. Known Limitations & Trade-offs
 
 ### 1. Limited Feature Set
-**Current Features:** neighborhood, rooms, is_pet_friendly (3 features)
-
-**Missing Features:**
-- Apartment age/renovation status (not extracted reliably)
-- Floor level (often ambiguous in listing text)
-- Amenities (gym, pool, parking) - requires complex LLM extraction
-- Building type (block vs villa) - not consistently available
-- Energy efficiency rating - not published by scraped site
-
-**Impact:** R² score capped at ~0.75; unexplained variance likely driven by amenities.
-
-**Mitigation:** Consider web scraping additional sites or integrating municipal records (e.g., building age via property registry).
+**Issue:** Only 3 features (neighborhood, rooms, pet-friendly). Missing: apartment age, floor level, amenities.  
+**Impact:** R² capped at ~0.75.  
+**Mitigation:** Integrate municipal property registry or additional data sources.
 
 ### 2. Geographic Concentration
-**Coverage:** Timișoara city only (satellite towns excluded)
-
-**Data Imbalance:**
-- Centru neighborhood: 29% of dataset (strong predictions ±€50)
-- Peripheral areas: 8-12% each (weaker predictions ±€100)
-
-**Impact:** Model underfits on underrepresented neighborhoods.
-
-**Mitigation:** Expand to surrounding communes (Giroc, Jimbee) for geographic coverage; collect additional years of historical data.
+**Issue:** Timișoara city only; data imbalance (Centru 29%, periphery 8-12%).  
+**Impact:** Weaker predictions on underrepresented neighborhoods.  
+**Mitigation:** Expand geographic scope + multi-year data collection.
 
 ### 3. Temporal Drift
-**Issue:** Rental market changes seasonally (winter lower, summer higher).
-
-**Current Approach:** No seasonal features; trained on aggregate data.
-
-**Impact:** Model predictions may deviate by ±€50-100 seasonally.
-
-**Mitigation:** Collect 2+ years data; implement seasonal indicators (month, holiday proximity) as features.
+**Issue:** Seasonal market drift (no seasonal features).  
+**Impact:** Predictions deviate ±€50-100 seasonally.  
+**Mitigation:** Add seasonal indicators; collect 2+ years data.
 
 ### 4. LLM Extraction Errors
-**Failure Modes:**
-- Ollama hallucinations (e.g., invents "Centru Downtown" instead of "Centru")
-- Missing listings if text truncated at 10K characters
-- Currency confusion (RON vs EUR conversion failures ~2% of cases)
-
-**Mitigation:**
-- Temperature=0.0 reduces hallucination but doesn't eliminate
-- Implement fuzzy neighborhood matching (correct "Centru Downtown" → "Centru")
-- Validate extracted prices against historical range [€200, €2000]
+**Issue:** Ollama hallucinations (~2% currency errors), text truncation.  
+**Mitigation:** Fuzzy matching, price validation [€200-€2000], temp=0.0.
 
 ### 5. Model Extrapolation Risk
-**Issue:** Model trained on €200-€2000 price range.
-
-**Danger:** Predictions for luxury apartments (€5000+) or sublets (<€200) unreliable.
-
-**Mitigation:** Return confidence intervals instead of point estimates; warn users when input outside training distribution.
+**Issue:** Trained on €200-€2000; luxury/sublet predictions unreliable.  
+**Mitigation:** Add confidence intervals; warn on out-of-distribution inputs.
 
 ### 6. API Rate Limiting (Discord Webhooks)
-**Constraint:** Discord webhook rate limit: 10 requests/second.
-
-**Current Impact:** None (pipeline generates ~50 alerts/day, well below limit).
-
-**Mitigation:** Implement request throttling and batch Discord notifications if scaling to multiple cities.
+**Issue:** Discord rate limit (10/sec); minimal impact at current scale.
 
 ### 7. Database Connection Pool Exhaustion
-**Issue:** Supabase PgBouncer limited to 20 connections per database.
-
-**Current Impact:** None for daily scheduled jobs; potential issue if 20+ concurrent scrapers launched.
-
-**Mitigation:** Implement connection pooling with max_connections=5; queue requests if pool exhausted.
+**Issue:** PgBouncer limit (20 connections); use max_connections=5 pooling.
 
 ### 8. Feature Engineering Leakage Risk
-**Concern:** Target encoding (neighborhood → mean rent) trains on ALL data before train/test split.
-
-**Current Implementation:** ✅ Correctly fitted on training set only (scikit-learn Pipeline prevents leakage).
-
-**Verification:**
-```python
-# Data leakage check: Pipeline.fit() only on X_train/y_train
-# ColumnTransformer fitted during Pipeline.fit(X_train, y_train)
-# NOT on X_test, preventing information leakage
-```
+**Status:** ✅ No leakage - sklearn Pipeline.fit() on train set only.
 
 ### 9. Cold Start Problem
-**Issue:** New neighborhoods (not in training data) encoded as overall mean rent.
-
-**Impact:** Predictions for new areas default to €400-450 (market average).
-
-**Mitigation:** Collect 3+ months of historical data before launching for new geographic expansion.
+**Issue:** New neighborhoods default to market average (€400-450).  
+**Mitigation:** Collect 3+ months historical data before geographic expansion.
 
 ### 10. Production Monitoring Gaps
-**Missing Observability:**
-- No prediction confidence intervals
-- No model drift detection (is today's market different from training data?)
-- No A/B testing framework for model updates
-
-**Action Items:**
-- [ ] Implement Arize/Fiddler ML monitoring dashboard
-- [ ] Add prediction uncertainty estimation (quantile regression)
-- [ ] Schedule quarterly model retraining vs validation checks
+**Missing:** Confidence intervals, drift detection, A/B testing.  
+**TODO:** Add ML monitoring (Arize/Fiddler), uncertainty estimation, quarterly retraining.
 
 ---
 
