@@ -3,8 +3,10 @@ import pandas as pd
 import psycopg2
 import os
 import requests
+import joblib
 from dotenv import load_dotenv
 from data_cleaning import clean_listings_data
+from pathlib import Path
 
 load_dotenv()
 
@@ -54,6 +56,35 @@ def load_data():
     except Exception as e:
         st.error(f"Error fetching data: {e}")
         return load_fallback()
+
+
+@st.cache_resource
+def load_model_neighborhoods():
+    """Extract the neighborhood vocabulary from the trained inference model."""
+    model_path = Path(__file__).resolve().parents[1] / "assets" / "model.joblib"
+    if not model_path.exists():
+        return []
+
+    try:
+        model = joblib.load(model_path)
+        preprocessor = model.named_steps["preprocessor"]
+        encoder = preprocessor.named_transformers_["neighborhood_te"]
+
+        neighborhoods = []
+        for mapping_info in getattr(encoder.ordinal_encoder, "category_mapping", []):
+            mapping = mapping_info.get("mapping")
+            if hasattr(mapping, "index"):
+                neighborhoods.extend(
+                    [
+                        str(value)
+                        for value in list(mapping.index)
+                        if str(value).lower() != "nan"
+                    ]
+                )
+
+        return sorted(dict.fromkeys(neighborhoods))
+    except Exception:
+        return []
 
 
 # Load the listings data
@@ -117,12 +148,21 @@ else:
     with st.form("prediction_form"):
         col_a, col_b = st.columns(2)
         with col_a:
-            # Safely extract unique neighborhoods previously populated from database
-            neighborhoods = df['neighborhood'].dropna().unique().tolist()
+            # Prefer the model's trained neighborhood vocabulary so predictions vary meaningfully.
+            model_neighborhoods = load_model_neighborhoods()
+            neighborhoods = df['neighborhood'].dropna().astype(str).unique().tolist()
+            neighborhoods = sorted(set(neighborhoods).union(model_neighborhoods))
+
             if not neighborhoods:
-                neighborhoods = ["Centru", "Complexul Studentesc"] # Fallback
+                neighborhoods = ["Centru", "Complexul Studentesc", "Iosefin", "Mehala"]
+
+            if model_neighborhoods:
+                st.caption(
+                    "Neighborhood options are taken from the trained model so the prediction changes across areas it actually knows."
+                )
             
-            sc_neighborhood = st.selectbox("Neighborhood", sorted(neighborhoods))
+            default_index = neighborhoods.index("Centru") if "Centru" in neighborhoods else 0
+            sc_neighborhood = st.selectbox("Neighborhood", neighborhoods, index=default_index)
             sc_rooms = st.slider("Rooms", 1, 6, 2)
             
         with col_b:
